@@ -201,9 +201,9 @@ module Spree
 
     private
 
-    def asset_url(_path)
-      URI::HTTP.build(:path => ActionController::Base.helpers.asset_path(_path), :host => Spree::Config[:site_url].strip).to_s
-    end
+    # def asset_url(_path)
+    #   URI::HTTP.build(:path => ActionController::Base.helpers.asset_path(_path), :host => Spree::Config[:site_url].strip).to_s
+    # end
 
     def record_log(payment, response)
       payment.log_entries.create(:details => response.to_yaml)
@@ -240,11 +240,11 @@ module Spree
 
       #asset_url doesn't like Spree::Config[:logo] being an absolute url
       #if statement didn't work within hash
-      if URI.parse(Spree::Config[:logo]).absolute?
-          chosen_image = Spree::Config[:logo]
-      else
-          chosen_image = asset_url(Spree::Config[:logo])
-      end
+      # if URI.parse(Spree::Config[:logo]).absolute?
+      #     chosen_image = Spree::Config[:logo]
+      # else
+      #     chosen_image = asset_url(Spree::Config[:logo])
+      # end
 
 
       { :description             => "Goods from #{Spree::Config[:site_name]}", # site details...
@@ -252,7 +252,7 @@ module Spree
         :background_color        => "ffffff",  # must be hex only, six chars
         :header_background_color => "ffffff",
         :header_border_color     => "ffffff",
-        :header_image            => chosen_image,
+        :header_image            => "http://kaufmann-mercantile.com/uploads/images/kaufmann_mercantile_logo.png",#chosen_image,
         :allow_note              => Spree::Config[:shipping_instructions],
         :locale                  => user_locale,
         :req_confirm_shipping    => false,   # for security, might make an option later
