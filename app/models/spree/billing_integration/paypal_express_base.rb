@@ -34,7 +34,7 @@ class Spree::BillingIntegration::PaypalExpressBase < Spree::BillingIntegration
   end
 
   def find_authorization(payment)
-    logs = payment.log_entries.all(:order => 'created_at DESC')
+    logs = payment.log_entries.all.order('created_at DESC')
     logs.each do |log|
       details = YAML.load(log.details) # return the transaction details
       if (details.params['payment_status'] == 'Pending' && details.params['pending_reason'] == 'authorization')
@@ -46,7 +46,7 @@ class Spree::BillingIntegration::PaypalExpressBase < Spree::BillingIntegration
 
   def find_capture(payment)
     #find the transaction associated with the original authorization/capture
-    logs = payment.log_entries.all(:order => 'created_at DESC')
+    logs = payment.log_entries.all.order('created_at DESC')
     logs.each do |log|
       details = YAML.load(log.details) # return the transaction details
       if details.params['payment_status'] == 'Completed'
